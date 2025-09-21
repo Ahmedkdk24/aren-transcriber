@@ -1,0 +1,15 @@
+torch>=2.2.0
+torchaudio>=2.2.0
+pydub>=0.25.1
+pyannote.audio>=3.1.1
+faster-whisper>=1.0.3
+python-docx>=0.8.11
+transformers>=4.44.0
+accelerate>=0.34.2
+bitsandbytes>=0.43.3
+sentencepiece>=0.2.0
+protobuf>=4.25.3
+numpy>=1.26.4
+scipy>=1.13.1
+soundfile>=0.12.1
+ffmpeg-python>=0.2.0
