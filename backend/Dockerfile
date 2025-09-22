@@ -1,6 +1,6 @@
 # backend/Dockerfile
 # NOTE: pick CUDA tag compatible with drivers on your VM; adjust if needed.
-FROM nvidia/cuda:12.2.1-runtime-ubuntu22.04
+FROM nvidia/cuda:12.2-runtime-ubuntu22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 WORKDIR /app
