@@ -13,10 +13,10 @@ from transcribe_en import transcribe_english
 from transcribe_ar import transcribe_arabic
 from translate_ar import translate_arabic
 
-TMP_DIR = "/tmp/react_transcribe"
+TMP_DIR = "/tmp/aren_transcriber"
 os.makedirs(TMP_DIR, exist_ok=True)
 
-app = FastAPI(title="React-Transcribe Backend")
+app = FastAPI(title="aren-transcriber Backend")
 
 app.add_middleware(
     CORSMiddleware,
