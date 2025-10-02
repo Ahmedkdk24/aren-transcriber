@@ -492,13 +492,3 @@ This README is intentionally pragmatic — it documents the exact causes of the 
 
 * **Use NVIDIA base images** for GPU work, but **don’t overwrite the ML runtime** inside them unless you know the exact wheel tags.
 * **Bake** any system-level dependencies (ffmpeg, etc.) into a `Dockerfile` and build an image (one-time), then run containers from that image. That’s the “do it once and forget it” approach Docker is meant for.
-
-If you want, I can:
-
-* produce a `requirements-app-only.txt` tuned for the container,
-* produce the `Dockerfile` and `docker-compose.yml` with exact commands for your repo, or
-* prepare a short `run.sh` script that builds and starts everything (one copy-paste).
-
----
-
-If you copy the contents above into your `README.md`, it will document the full setup and the decisions / fixes we went through in this thread. If you want it tuned to be shorter or targeted at non-technical reviewers, I can produce a condensed version next.
