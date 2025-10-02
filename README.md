@@ -1,6 +1,6 @@
 # aren-transcriber 🎙️
 
-A portfolio project that demonstrates **AI-powered audio transcription and speaker diarization** with:
+An Arabic-English transcriber web app that demonstrates **AI-powered audio transcription and speaker diarization** with:
 
 - **FastAPI** backend (transcription + diarization pipeline)
 - **React** frontend (UI to upload and process audio files)
