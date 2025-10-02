@@ -1,29 +1,20 @@
-# Use NVIDIA CUDA base image with PyTorch (for GPU)
-FROM nvidia/cuda:12.1.1-runtime-ubuntu22.04
+FROM node:18
 
 # Set working directory
-WORKDIR /app
+WORKDIR /workspace/aren-transcriber/frontend
 
-# Prevent Python from writing .pyc files and buffering stdout
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
+# Install dependencies
+COPY package.json package-lock.json ./
+RUN npm install
 
-# Install Python + system deps
-RUN apt-get update && apt-get install -y \
-    python3 python3-pip ffmpeg git \
-    && rm -rf /var/lib/apt/lists/*
+# Copy project files
+COPY . .
 
-# Copy requirements first (if you have requirements.txt)
-COPY backend/requirements.txt .
+# Build the frontend
+RUN npm run build
 
-# Install Python deps
-RUN pip3 install --no-cache-dir -r requirements.txt
+# Expose frontend port
+EXPOSE 3000
 
-# Copy backend code
-COPY backend/ .
-
-# Expose the app port (FastAPI/Flask typically run on 8080 inside GCP)
-EXPOSE 8080
-
-# Run your backend
-CMD ["python3", "app.py"]
+# Run frontend
+CMD ["npm", "run", "start"]
