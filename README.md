@@ -6,8 +6,7 @@ An Arabic-English transcriber web app that demonstrates **AI-powered audio trans
 - **React** frontend (UI to upload and process audio files)
 - **PyTorch + GPU acceleration** (via NVIDIA Docker images)
 - **Hugging Face integration** (pyannote pipeline for diarization)
-
-![Demo](https://private-user-images.githubusercontent.com/193221411/497522666-2f037e91-a7da-4435-b38f-46e246528bd6.mp4)
+[Demo](https://private-user-images.githubusercontent.com/193221411/497522666-2f037e91-a7da-4435-b38f-46e246528bd6.mp4)
 ---
 
 ## 🚀 Deployment with GPU (Google Cloud + Docker)
