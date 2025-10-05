@@ -3,6 +3,10 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Card, CardContent } from "@/components/ui/card";
+import openaiLogo from "@/assets/OpenAI_Logo.svg.png";
+import huggingfaceLogo from "@/assets/Hf-logo-with-title.svg.png";
+import pyannoteLogo from "@/assets/logopyannote.png";
+import humainLogo from "@/assets/HUMAIN.svg.png";
 
 const API_BASE = import.meta.env.VITE_API_URL || ""; // e.g. http://localhost:8000
 
@@ -14,60 +18,61 @@ export default function App() {
   const [moderatorFirst, setModeratorFirst] = useState(false);
   const [progress, setProgress] = useState({ transcription: 0, translation: 0 });
   const [transcript, setTranscript] = useState("");
+  const [downloadUrl, setDownloadUrl] = useState("");
 
-  // Mock backend call
   const startProcessing = async () => {
-  setStep("progress");
-  setProgress({ transcription: 0, translation: 0 });
+    if (!file) return;
+    setStep("progress");
+    setProgress({ transcription: 0, translation: 0 });
 
-  const formData = new FormData();
-  formData.append("file", file);
-  formData.append("language", language);
-  formData.append("moderator_first", moderatorFirst ? "true" : "false");
-  formData.append("speakers", speakers);
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("language", language);
+    formData.append("moderator_first", moderatorFirst ? "true" : "false");
+    formData.append("speakers", speakers);
 
-  try {
-    // still keep a simple fake progress indicator for UX while request runs
-    let t = 0;
-    const interval = setInterval(() => {
-      t += 8;
-      setProgress({
-        transcription: Math.min(t, 95),
-        translation: language === "arabic" ? Math.min(t / 2, 95) : 0,
+    try {
+      // simulate frontend progress bar while backend works
+      let t = 0;
+      const interval = setInterval(() => {
+        t += 8;
+        setProgress({
+          transcription: Math.min(t, 95),
+          translation: language === "arabic" ? Math.min(t / 2, 95) : 0,
+        });
+        if (t >= 95) clearInterval(interval);
+      }, 700);
+
+      const res = await fetch(`${API_BASE}/process`, {
+        method: "POST",
+        body: formData,
       });
-      if (t >= 95) clearInterval(interval);
-    }, 700);
 
-    const res = await fetch(`${API_BASE}/process`, {
-      method: "POST",
-      body: formData,
-    });
+      if (!res.ok) {
+        const err = await res.text();
+        throw new Error(err || "Server error");
+      }
 
-    if (!res.ok) {
-      const err = await res.text();
-      throw new Error(err || "Server error");
+      const data = await res.json();
+      setTranscript(data.text || "");
+      setDownloadUrl(API_BASE + data.download_url);
+      setProgress({
+        transcription: 100,
+        translation: language === "arabic" ? 100 : 0,
+      });
+      setStep("results");
+    } catch (err) {
+      console.error(err);
+      alert("Processing failed: " + (err.message || err));
+      setStep("upload");
     }
-
-    const data = await res.json();
-    // data.text is the plain transcript for preview
-    setTranscript(data.text || ""); 
-    // set progress to finished
-    setProgress({ transcription: 100, translation: language === "arabic" ? 100 : 0 });
-    setStep("results");
-
-    // Save download info in state
-    setDownloadUrl(API_BASE + data.download_url); // e.g. http://localhost:8000/download/<name>
-  } catch (err) {
-    console.error(err);
-    alert("Processing failed: " + (err.message || err));
-    setStep("upload");
-  }
-};
+  };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-6">
-      <Card className="w-full max-w-xl shadow-2xl rounded-2xl">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-6">
+      <Card className="w-full max-w-xl shadow-2xl rounded-2xl mb-8">
         <CardContent className="p-6 space-y-6">
+          {/* Upload Step */}
           {step === "upload" && (
             <div className="space-y-4">
               <h1 className="text-2xl font-bold">Upload Audio</h1>
@@ -117,6 +122,7 @@ export default function App() {
             </div>
           )}
 
+          {/* Progress Step */}
           {step === "progress" && (
             <div className="space-y-4">
               <h1 className="text-2xl font-bold">Processing...</h1>
@@ -133,52 +139,58 @@ export default function App() {
             </div>
           )}
 
+          {/* Results Step */}
           {step === "results" && (
             <div className="space-y-4">
-              <h1 className="text-2xl font-bold">Results</h1>
+              <h1 className="text-2xl font-bold">Completed!</h1>
+              <p className="text-green-600">Your transcript is ready.</p>
               <textarea
                 value={transcript}
                 readOnly
                 className="w-full h-40 border p-2 rounded-lg"
               />
-              <Button
-                onClick={async () => {
-                  try {
-                    // Call your backend endpoint (this assumes you have a `/process` route that returns a DOCX)
-                    const response = await fetch("http://localhost:5000/process", {
-                      method: "POST",
-                      body: JSON.stringify({
-                        language,
-                        speakers,
-                        moderatorFirst,
-                        // you’ll need to include audio upload earlier and pass the file ref here
-                      }),
-                      headers: { "Content-Type": "application/json" },
-                    });
-
-                    // Get blob (docx file)
-                    const blob = await response.blob();
-
-                    // Trigger download
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement("a");
-                    a.href = url;
-                    a.download = "transcript.docx"; // instead of transcript.txt
-                    a.click();
-                    URL.revokeObjectURL(url);
-                  } catch (err) {
-                    console.error("Download failed", err);
-                  }
-                }}
-                className="w-full"
-                >
+              <a
+                href={downloadUrl}
+                download="transcript.docx"
+                className="block w-full text-center bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
+              >
                 Download Transcript
-                </Button>
-
+              </a>
             </div>
           )}
         </CardContent>
       </Card>
+
+      {/* --- Powered By Section --- */}
+      <footer className="w-full border-t border-gray-200 pt-6 text-center">
+        <p className="text-sm font-medium text-gray-600 mb-4">Powered By</p>
+        <div className="flex justify-center items-center flex-wrap gap-8">
+          <img
+            src={openaiLogo}
+            alt="OpenAI"
+            title="OpenAI"
+            className="h-10 object-contain opacity-80 hover:opacity-100 transition-transform duration-200 hover:scale-105"
+          />
+          <img
+            src={huggingfaceLogo}
+            alt="HuggingFace"
+            title="HuggingFace"
+            className="h-10 object-contain opacity-80 hover:opacity-100 transition-transform duration-200 hover:scale-105"
+          />
+          <img
+            src={pyannoteLogo}
+            alt="Pyannote"
+            title="Pyannote"
+            className="h-10 object-contain opacity-80 hover:opacity-100 transition-transform duration-200 hover:scale-105"
+          />
+          <img
+            src={humainLogo}
+            alt="HUMAIN"
+            title="HUMAIN"
+            className="h-10 object-contain opacity-80 hover:opacity-100 transition-transform duration-200 hover:scale-105"
+          />
+        </div>
+      </footer>
     </div>
   );
 }

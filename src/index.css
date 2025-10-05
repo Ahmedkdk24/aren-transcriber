@@ -66,3 +66,13 @@
     @apply bg-background text-foreground;
   }
 }
+
+.logo:hover {
+  transform: scale(1.1);
+  transition: transform 0.2s ease-in-out;
+  filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.2));
+}
+
+footer img:hover {
+  filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.15));
+}
