@@ -6,7 +6,8 @@ An Arabic-English transcriber web app that demonstrates **AI-powered audio trans
 - **React** frontend (UI to upload and process audio files)
 - **PyTorch + GPU acceleration** (via NVIDIA Docker images)
 - **Hugging Face integration** (pyannote pipeline for diarization)
-![Demo](/src/assets/demo.mp4)
+![Demo](https://raw.githubusercontent.com/Ahmedkdk24/aren-transcriber/main/src/assets/demo.mp4
+)
 <video src="https://raw.githubusercontent.com/Ahmedkdk24/aren-transcriber/main/src/assets/demo.mp4" controls width="640"></video>
 
 ---
