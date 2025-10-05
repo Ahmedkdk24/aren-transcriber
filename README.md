@@ -7,7 +7,7 @@ An Arabic-English transcriber web app that demonstrates **AI-powered audio trans
 - **PyTorch + GPU acceleration** (via NVIDIA Docker images)
 - **Hugging Face integration** (pyannote pipeline for diarization)
 
-![Demo](https://private-user-images.githubusercontent.com/193221411/497522666-2f037e91-a7da-4435-b38f-46e246528bd6.mp4?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTk2NDg4MTQsIm5iZiI6MTc1OTY0ODUxNCwicGF0aCI6Ii8xOTMyMjE0MTEvNDk3NTIyNjY2LTJmMDM3ZTkxLWE3ZGEtNDQzNS1iMzhmLTQ2ZTI0NjUyOGJkNi5tcDQ_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUxMDA1JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MTAwNVQwNzE1MTRaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1iN2QyYTViNmNlYzgxZGM2MWEwMWMzYjE0ODFhOGM0NjBmMWQzZTdjMTc5MGE1MWE0MWQ4NjI2YjkwOWZhY2FmJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.qe9dVnY20JugOuPQYhUmgfAzhgScu0tHGIsk8CKwmHM)
+![Demo](https://private-user-images.githubusercontent.com/193221411/497522666-2f037e91-a7da-4435-b38f-46e246528bd6.mp4)
 ---
 
 ## 🚀 Deployment with GPU (Google Cloud + Docker)
